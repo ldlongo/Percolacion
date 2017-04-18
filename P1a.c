@@ -5,6 +5,8 @@
 #include <unistd.h>
 
 #define N     20 //lado de la red simulada
+#define Z  27000 //iteraciones para cada proba.
+
 
 //-------------------------------------------------------------------
 //                     Declaracion de funciones
@@ -16,23 +18,80 @@ int actualizar(int *red, int *clase, int s, int frag);
 int etiqueta_falsa(int *red, int *clase, int sa, int si);
 int corregir_etiqueta(int *red, int *clase, int n);
 int percola(int *r, int n);
+float *promydisp(float *a, int n);
+
 
 int main(){
    //Declaraciones
-   int n, *red;
-   float prob;
+   int n, *red, j, prec, semillas, z, p; 
+   float prob, prom, disp;
+   float *pc;
 
    //Defino
    n=N;
-   prob=0.68;
    red=malloc(n*n*sizeof(float));
+   prec=20; // es la precisión, medida en cantidad de pasos que hago el metodo de biyeccion.
+   semillas=Z; // es la cantidad de iteraciones, o sea cantidad de pc's que obtengo, y luego a promediarlas
+   pc=malloc(semillas*sizeof(float)); //array que tiene las probas criticas
 
-   llenar(red,n,prob);
-   hoshen(red,n);
-   imprimir(red,n);
-   percola(red,n);
+for(j=0;j<semillas;j++)
+
+{
+
+  prob=0.5;  //vuelvo a empezar con la proba en 0.5
+  prec=4;     //vuelvo a ponerlo en 4
+
+  //Semilla
+  srand(time(NULL)+j);
+
+  for(z=0;z<prec;z++)
+
+    {
+
+    //pueblo
+
+    llenar(red,n,prob);
+    
+    //hk   
+
+    hoshen(red,n);   
+
+    //percola o no percola?
+
+    p=percola(red,n);
+
+
+    //nueva proba 
+    if (p==1){
+       printf("percolo: %d , con proba %f\n",p,prob);
+       prob = prob-(1.0/prec);}
+    else{
+       printf("no percolo\n");
+       prob = prob+(1.0/prec);} 
+    
+    prec=prec*2;//incremento prec
+
+    }
+
+  pc[j]=prob;//guardo el ultimo valor de proba de la iteracion
+
+}
+
+//promedio
+prom=promydisp(pc,semillas)[0];
+disp=promydisp(pc,semillas)[1];
+
+//imprimo pc's promedio y dispersion:
+for (j=0;j<semillas;j++)
+ {
+   printf("pc=%f\n", pc[j]);
+ }
+printf("promedio %f\n",prom);
+printf("dispersion %f\n",disp);
+
 
 free(red);
+free(pc);
 return 0;
 }
 //-----------------------------------------------------------
@@ -264,15 +323,42 @@ j=0;
 while (j<n){
     if(*(r+(n-1)*n+j)<(ceil((n+0.0)/2)+2) && (*(r+(n-1)*n+j))*(etiq[*(r+(n-1)*n+j)])!=0){//recorro la ultima fila
     p=1;
-    printf("Si percolo: %d\n",*(r+(n-1)*n+j));
+    //printf("Si percolo: %d\n",*(r+(n-1)*n+j));
      break;}
     else {
       j=j+1;
       p=0;}
     }  
 
-if (p==0){printf("No Percolo\n");}    
+//if (p==0){printf("No Percolo\n");}    
 
 free(etiq);
 return p;
+}
+
+//8)proydis
+  
+  //Esta funcion toma un array a y su tamaño n
+  //y devuelve el promedio y la desviacion standar.
+
+float *promydisp(float *a, int n){
+    int i;
+    float prom;
+    float desv;
+    float *salida; //salida[0]=promedio salida[1]=dispersion
+ 
+    salida=malloc(2*sizeof(float));
+    prom=0;
+    desv=0;
+
+    for (i=0;i<n;i=i+1){
+    prom=prom+a[i];    
+    }
+     
+    for (i=0;i<n;i=i+1){ 
+    desv=pow(a[i]-(prom/n),2)+desv;}
+
+    salida[0]=prom/n;
+    salida[1]=sqrt(desv/n);
+    return salida;
 }
