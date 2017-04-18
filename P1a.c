@@ -15,6 +15,7 @@ int hoshen (int *red, int n);
 int actualizar(int *red, int *clase, int s, int frag);
 int etiqueta_falsa(int *red, int *clase, int sa, int si);
 int corregir_etiqueta(int *red, int *clase, int n);
+int percola(int *r, int n);
 
 int main(){
    //Declaraciones
@@ -23,13 +24,13 @@ int main(){
 
    //Defino
    n=N;
-   prob=0.5;
+   prob=0.68;
    red=malloc(n*n*sizeof(float));
 
    llenar(red,n,prob);
-   imprimir(red,n);
    hoshen(red,n);
    imprimir(red,n);
+   percola(red,n);
 
 free(red);
 return 0;
@@ -234,4 +235,44 @@ for(i=0;i<n;i++){
     }
 }
 return 0;
+}
+
+//7)Percola
+  
+  //Esta función toma la red y se fija si percola o no.
+ // Si percola además me dice que cluster es el percolante.
+
+int percola(int *r, int n){
+int *etiq; 
+int k, j, p;
+j=1;
+p=0;// 0/1=noperc/perc;
+
+etiq=malloc((ceil((n+0.0)/2)+2)*sizeof(int)); //En la primer fila las etiquetas van desde 0 1 2...hasta ceil(m/2)+1
+
+for (k=0;k<(ceil((n+0.0)/2)+2);k++){etiq[k]=0;} //Inicio etiq
+
+for (k=0;k<n;k++){ //Lleno etiq
+
+    if (*(r+k)!=0 && *(r+k)!=j){ //primer fila i=0
+        etiq[*(r+k)]=*(r+k);
+        j=*(r+k);} //actualizo el j con el ultimo que guarde
+    }
+
+
+j=0;
+while (j<n){
+    if(*(r+(n-1)*n+j)<(ceil((n+0.0)/2)+2) && (*(r+(n-1)*n+j))*(etiq[*(r+(n-1)*n+j)])!=0){//recorro la ultima fila
+    p=1;
+    printf("Si percolo: %d\n",*(r+(n-1)*n+j));
+     break;}
+    else {
+      j=j+1;
+      p=0;}
+    }  
+
+if (p==0){printf("No Percolo\n");}    
+
+free(etiq);
+return p;
 }
