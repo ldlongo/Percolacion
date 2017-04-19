@@ -4,7 +4,7 @@
 #include <time.h>
 #include <unistd.h>
 
-#define N     6 //lado de la red simulada
+#define N     4 //lado de la red simulada
 #define Z  27000 //iteraciones para cada proba.
 
 
@@ -19,20 +19,22 @@ int etiqueta_falsa(int *red, int *clase, int sa, int si);
 int corregir_etiqueta(int *red, int *clase, int n);
 int percola(int *r, int n);
 float *mediana(float *proba, float *probaper);
+float *densidad(float *proba, float *probaper, int m);
+
 
 
 int main(){
    //Declaraciones
    int n, *red, semillas, p, i, j, m;
-   float a, b, paso, *probas, *probaper, *med;
+   float a, b, paso, *probas, *probaper, *med, *dens;
 
    //Defino
    n=N;
    red=malloc(n*n*sizeof(int));
    semillas=Z; // es la cantidad de iteraciones, o sea cantidad de pc's que obtengo, y luego a promediarlas
-   a=0.4; //extremo inferior
-   b=0.8; //extremo superior
-   m=50;//cantidad de probabilidades
+   a=0.0; //extremo inferior
+   b=1.0; //extremo superior
+   m=100;//cantidad de probabilidades
    paso=(b-a)/(m+1.0); //paso
    probas=malloc(m*sizeof(float));  //vector que contiene a las probabilidades.
    probaper=malloc(m*sizeof(float));//vector que contiene a las probabilidades de percolar
@@ -72,6 +74,8 @@ for (i=0;i<m;i++)//recorro probas
 
 med=mediana(probas, probaper);
 
+dens=densidad(probas, probaper, m);
+
 //Imprimo probabilidades normalizadas en consola
 printf ("Tamaño de red: %d\n",n);
 printf ("Se estudiaron %d probabilidades.\n", m);
@@ -86,6 +90,58 @@ for (i=0;i<m;i++){
 }
 
 printf ("La mediana es %f\n", med[0]);
+
+//Imprimo densidad
+printf("funcino densidad f(p)\n");
+printf ("   p   \n");
+for (i=0;i<m-1;i++){
+    printf ("%f\n",dens[0+i]);
+}
+printf ("\ndensidad f\n");
+for (i=0;i<m-1;i++){
+    printf ("%f\n",dens[m+i]);
+}
+
+
+//Imprimo en archivo de texto
+char filename[64];
+
+FILE *f;   //Declara puntero a tipo FILE 
+sprintf(filename, "%d.txt", n);
+f=fopen(filename, "wt");
+
+fprintf(f,"Tamaño de red: %d\n",n);
+fprintf(f,"Se estudiaron %d probabilidades.\n", m);
+fprintf(f,"Se plantaron %d semillas para cada probabilidad.\n",N);
+
+
+//Imprimo probabilidades normalizadas
+    fprintf (f,"   p   \n");
+for (i=0;i<m;i++){
+    fprintf (f,"%f\n",probas[i]);
+}
+fprintf (f,"probabilidad de percolar\n");
+for (i=0;i<m;i++){
+    fprintf (f,"%f\n",(probaper[i]));
+}
+
+//Imprimo densidad
+fprintf(f,"funcion densidad f(p)\n");
+fprintf (f,"   p   \n");
+for (i=0;i<m-1;i++){
+    fprintf (f,"%f\n",dens[0+i]);
+}
+fprintf (f,"\ndensidad f\n");
+for (i=0;i<m-1;i++){
+    fprintf (f,"%f\n",dens[m+i]);
+}
+
+fprintf(f,"La mediana es %f\n", med[0]);
+
+
+fflush(f);
+fclose(f);
+
 
 
 free(probas);
@@ -357,3 +413,27 @@ salida[1]=probaper[i];
 
 return salida;
 }
+
+//9)Densidad
+
+   //Esta funcion toma la acumulada F(p) y calcula su derivada para devolver
+   // en un vector las probas y el valor de f(p).
+float *densidad(float *probas, float *probaper, int m){
+int j;
+float *salida;
+
+salida=malloc(2*(m-1)*sizeof(float));//tamaño m-1 porque para la derivada 2 puntos se me transforman en 1
+
+
+       for (j=0;j<(m-1);j++)
+       {
+                   
+            salida[j]=(probas[j+1]+probas[j])/2; //tomo el punto del medio
+            salida[m-1+j]=(probaper[j+1]-probaper[j])/(probas[j+1]-probas[j]);   //pendiente
+       }
+ 
+ 
+return salida;
+}
+
+
