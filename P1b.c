@@ -22,20 +22,19 @@ int percola(int *r, int n);
 
 int main(){
    //Declaraciones
-   int n, *red, semillas, p, a, b, i, j, m; 
-   float paso, *probas, *probaper;
+   int n, *red, semillas, p, i, j, m;
+   float a, b, paso, *probas, *probaper;
 
    //Defino
    n=N;
    red=malloc(n*n*sizeof(int));
    semillas=Z; // es la cantidad de iteraciones, o sea cantidad de pc's que obtengo, y luego a promediarlas
-   a=0.0; //extremo inferior
-   b=1.0; //extremo superior
-   m=100;//cantidad de probabilidades
+   a=0.4; //extremo inferior
+   b=0.8; //extremo superior
+   m=50;//cantidad de probabilidades
    paso=(b-a)/(m+1.0); //paso
    probas=malloc(m*sizeof(float));  //vector que contiene a las probabilidades.
    probaper=malloc(m*sizeof(float));//vector que contiene a las probabilidades de percolar
-
 
    //Lleno probas
     
@@ -44,7 +43,6 @@ int main(){
      probas[i]=a+paso*(i+1);
      probaper[i]=0.0;
     }
-
 
 for (i=0;i<m;i++)//recorro probas
  {
@@ -85,6 +83,8 @@ for (i=0;i<m;i++){
 }
 
 
+free(probas);
+free(probaper);
 free(red);    
 return 0;
 }
