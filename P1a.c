@@ -63,10 +63,10 @@ for(j=0;j<semillas;j++)
 
     //nueva proba 
     if (p==1){
-       printf("percolo: %d , con proba %f\n",p,prob);
+       //printf("percolo: %d , con proba %f\n",p,prob);
        prob = prob-(1.0/prec);}
     else{
-       printf("no percolo\n");
+       //printf("no percolo\n");
        prob = prob+(1.0/prec);} 
     
     prec=prec*2;//incremento prec
@@ -77,11 +77,16 @@ for(j=0;j<semillas;j++)
 
 }
 
-//promedio
+//promedio y dispersion
 prom=promydisp(pc,semillas)[0];
 disp=promydisp(pc,semillas)[1];
 
-//imprimo pc's promedio y dispersion:
+//Imprimo pc's , promedio y dispersion:
+
+printf("Tamaño de red: %d\n",n);
+printf("Se plantaron %d semillas:\n",semillas);
+printf("pc:\n");
+
 for (j=0;j<semillas;j++)
  {
    printf("pc=%f\n", pc[j]);
@@ -90,10 +95,34 @@ printf("promedio %f\n",prom);
 printf("dispersion %f\n",disp);
 
 
+//Imprimo en archivo de texto
+char filename[64];
+
+FILE *f;                   /* Declara puntero a tipo FILE */
+   sprintf(filename, "%d.txt", n);
+   f=fopen(filename,"wt");
+
+fprintf(f,"Tamaño de red: %d",n);
+fprintf(f,"Se plantaron %d semillas:\n",semillas);
+fprintf(f,"pc:\n");
+
+for (j=0;j<semillas;j++){
+ fprintf(f,"%3f\n",pc[j]);
+}
+
+fprintf(f,"promedio %f\n",prom);
+fprintf(f,"dispersion %f\n",disp);
+
+fflush(f);
+fclose(f);
+
+
 free(red);
 free(pc);
 return 0;
 }
+
+
 //-----------------------------------------------------------
 //                   Definicion de funciones
 //-----------------------------------------------------------
