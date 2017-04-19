@@ -18,12 +18,13 @@ int actualizar(int *red, int *clase, int s, int frag);
 int etiqueta_falsa(int *red, int *clase, int sa, int si);
 int corregir_etiqueta(int *red, int *clase, int n);
 int percola(int *r, int n);
+float *mediana(float *proba, float *probaper);
 
 
 int main(){
    //Declaraciones
    int n, *red, semillas, p, i, j, m;
-   float a, b, paso, *probas, *probaper;
+   float a, b, paso, *probas, *probaper, *med;
 
    //Defino
    n=N;
@@ -69,6 +70,8 @@ for (i=0;i<m;i++)//recorro probas
     }
 }
 
+med=mediana(probas, probaper);
+
 //Imprimo probabilidades normalizadas en consola
 printf ("Tamaño de red: %d\n",n);
 printf ("Se estudiaron %d probabilidades.\n", m);
@@ -81,6 +84,8 @@ printf ("probabilidad de percolar\n");
 for (i=0;i<m;i++){
     printf ("%f\n",probaper[i]);
 }
+
+printf ("La mediana es %f\n", med[0]);
 
 
 free(probas);
@@ -330,4 +335,25 @@ while (j<n){
 
 free(etiq);
 return p;
+}
+
+//8)Mediana
+
+    //Esta función recibe el vector de probabilidades proba y el de probaper
+    //y devuelve el primer valor de probabilidad pc para el cual la red percola al menos la mitad de las veces
+    //como tambien el valor de esa probabilidad de percolar probaper(pc)
+    //salida[0]=pc  salida[1]=probaperc(pc)
+float *mediana(float *proba, float *probaper){
+int i;
+float *salida;
+
+i=0;
+salida=malloc(2*sizeof(float));
+while (probaper[i]<0.5){
+i=i+1;}
+
+salida[0]=proba[i];
+salida[1]=probaper[i];
+
+return salida;
 }
