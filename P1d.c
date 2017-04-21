@@ -71,6 +71,30 @@ for (k=0;k<n*n;k++){
     }
 }
 
+//Imprimo archivo de texto
+char filename[64];
+
+FILE *f;                   
+   sprintf(filename, "%f.txt", proba);
+   f=fopen(filename,"wt");
+
+fprintf(f,"Tamaño de red: %d",n);
+fprintf(f,"Se plantaron %d semillas:\n",Z);
+
+fprintf(f,"tamaño s:\n");
+for (j=0;j<n*n;j++){
+ fprintf(f,"%3d\n",tamano[j]);
+}
+
+fprintf(f,"Cuenta tamano ns:\n");
+for (j=0;j<n*n;j++){
+ fprintf(f,"%3d\n",cuentatamano[j]);
+}
+
+fflush(f);
+fclose(f);
+
+
 
 free(red);
 free(tamano);
