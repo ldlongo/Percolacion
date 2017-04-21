@@ -62,15 +62,6 @@ for (j=0;j<Z;j++){//repito para una proba dada Z veces
      tamanos(tamano, cuentatamano, red, clase, n);
 }
 
-//Imprimo
-printf ("\nTamano s\tCuentatamano ns\n");
-for (k=0;k<n*n;k++){
-    if (cuentatamano[k]!=0)
-    {
-    printf ("%5d\t\t%10d\n", tamano[k], cuentatamano[k]);
-    }
-}
-
 //Imprimo archivo de texto
 char filename[64];
 
@@ -83,12 +74,18 @@ fprintf(f,"Se plantaron %d semillas:\n",Z);
 
 fprintf(f,"tamaño s:\n");
 for (j=0;j<n*n;j++){
- fprintf(f,"%3d\n",tamano[j]);
+  if (tamano[j]!=0 && cuentatamano[j]!=0)
+     {
+       fprintf (f,"%3d\n", tamano[j]);
+     }
 }
 
 fprintf(f,"Cuenta tamano ns:\n");
 for (j=0;j<n*n;j++){
- fprintf(f,"%3d\n",cuentatamano[j]);
+  if (tamano[j]!=0 && cuentatamano[j]!=0)
+     {
+       fprintf(f,"%3d\n",cuentatamano[j]);
+     } 
 }
 
 fflush(f);
