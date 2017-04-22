@@ -4,7 +4,7 @@
 #include <time.h>
 #include <unistd.h>
 
-#define N     8 //lado de la red simulada
+#define N     32 //lado de la red simulada
 #define Z  27000 //iteraciones para cada proba.
 
 //-------------------------------------------------------------------
@@ -23,19 +23,32 @@ void tamanos (int *tamano, int *cuentatamano, int *red, int *clase, int n);
 //-----------------------------------------------------------------
 int main(){
 	//Declaraciones
-    int n, *red, i, j, k;
+    int n, *red, i, j, k, m, z;
     int *clase;
     int *tamano;
     int *cuentatamano;
-    float proba;
-
+    float *probas, a, b, paso;
+    
     //Defino
-    proba=0.62;
+    m=50;
+    a=0.55;
+    b=0.65;
+    paso=(b-a)/(m);
+    probas=malloc((m+1)*sizeof(float));
     n=N;
     red=malloc(n*n*sizeof(int));
     clase=malloc(n*n*sizeof(int));
     tamano=malloc(n*n*sizeof(int));
     cuentatamano=malloc(n*n*sizeof(int));
+
+ //inicializo probas
+ 
+ for (i=0;i<(m+1);i++)
+ {
+  probas[i]=a+(i*paso);
+ }  
+
+for  (z=0;z<(m+1);z++){//recorro probas
 
 //incializo tamano y cuentatamano
      for (i=0;i<n*n;i++)
@@ -44,13 +57,16 @@ int main(){
        cuentatamano[i]=0;
       }
 
+      //Semilla
+       srand(time(NULL)+i);
+
 for (j=0;j<Z;j++){//repito para una proba dada Z veces 
 
-    //Semilla
+  //Semilla
        srand(time(NULL)+j);
 
     //pueblo
-       llenar(red,n,proba);
+       llenar(red,n,probas[z]);
 
     //hk   
        hoshen(red,n); 
@@ -62,36 +78,45 @@ for (j=0;j<Z;j++){//repito para una proba dada Z veces
      tamanos(tamano, cuentatamano, red, clase, n);
 }
 
+//Imprimo
+printf ("\nTamano s\tCuentatamano ns\n");
+for (k=0;k<n*n;k++){
+    if (cuentatamano[k]!=0)
+    {
+    printf ("%5d\t\t%10d\n", tamano[k], cuentatamano[k]);
+    }
+}
+
 //Imprimo archivo de texto
 char filename[64];
 
 FILE *f;                   
-   sprintf(filename, "%f.txt", proba);
+   sprintf(filename, "%.4f.txt", probas[z]);
    f=fopen(filename,"wt");
 
 fprintf(f,"Tamaño de red: %d",n);
 fprintf(f,"Se plantaron %d semillas:\n",Z);
 
-fprintf(f,"tamaño s:\n");
+fprintf(f,"Tamaño s:\tCuentatamano ns:\n");
 for (j=0;j<n*n;j++){
   if (tamano[j]!=0 && cuentatamano[j]!=0)
      {
-       fprintf (f,"%3d\n", tamano[j]);
+       fprintf (f,"%5d\t\t%12d\n", tamano[j], cuentatamano[j]);
      }
 }
 
-fprintf(f,"Cuenta tamano ns:\n");
+/*fprintf(f,"Cuenta tamano ns:\n");
 for (j=0;j<n*n;j++){
   if (tamano[j]!=0 && cuentatamano[j]!=0)
      {
        fprintf(f,"%3d\n",cuentatamano[j]);
      } 
-}
+}*/
 
 fflush(f);
 fclose(f);
 
-
+}
 
 free(red);
 free(tamano);
