@@ -4,7 +4,7 @@
 #include <time.h>
 #include <unistd.h>
 
-#define N     4 //lado de la red simulada
+#define N     128 //lado de la red simulada
 #define Z  27000 //iteraciones para cada proba.
 
 
@@ -26,7 +26,7 @@ float *densidad(float *proba, float *probaper, int m);
 int main(){
    //Declaraciones
    int n, *red, semillas, p, i, j, m;
-   float a, b, paso, *probas, *probaper, *med, *dens;
+   float a, b, paso, *probas, *probaper, *med, *dens, cuentanorm;
 
    //Defino
    n=N;
@@ -38,6 +38,7 @@ int main(){
    paso=(b-a)/(m+1.0); //paso
    probas=malloc(m*sizeof(float));  //vector que contiene a las probabilidades.
    probaper=malloc(m*sizeof(float));//vector que contiene a las probabilidades de percolar
+   cuentanorm=1.0/semillas;
 
    //Lleno probas
     
@@ -67,7 +68,7 @@ for (i=0;i<m;i++)//recorro probas
 
         if (p==1)
         {
-        probaper[i] = probaper[i]+(1.0/semillas);//1/semillas es la cuenta normalizada
+        probaper[i] = probaper[i]+(cuentanorm);//1/semillas es la cuenta normalizada
         } 
     }
 }
@@ -110,33 +111,12 @@ FILE *f;   //Declara puntero a tipo FILE
 sprintf(filename, "%d.txt", n);
 f=fopen(filename, "wt");
 
-fprintf(f,"Tamaño de red: %d\n",n);
-fprintf(f,"Se estudiaron %d probabilidades.\n", m);
-fprintf(f,"Se plantaron %d semillas para cada probabilidad.\n",N);
-
-
 //Imprimo probabilidades normalizadas
-    fprintf (f,"   p   \n");
-for (i=0;i<m;i++){
-    fprintf (f,"%f\n",probas[i]);
+    fprintf (f,"p\t\t\tprobperc\n");
+for (i=0;i<m;i++)
+{
+    fprintf (f,"%f\t\t%7f\n",probas[i],probaper[i]);
 }
-fprintf (f,"probabilidad de percolar\n");
-for (i=0;i<m;i++){
-    fprintf (f,"%f\n",(probaper[i]));
-}
-
-//Imprimo densidad
-fprintf(f,"funcion densidad f(p)\n");
-fprintf (f,"   p   \n");
-for (i=0;i<m-1;i++){
-    fprintf (f,"%f\n",dens[0+i]);
-}
-fprintf (f,"\ndensidad f\n");
-for (i=0;i<m-1;i++){
-    fprintf (f,"%f\n",dens[m+i]);
-}
-
-fprintf(f,"La mediana es %f\n", med[0]);
 
 
 fflush(f);
