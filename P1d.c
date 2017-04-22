@@ -4,7 +4,7 @@
 #include <time.h>
 #include <unistd.h>
 
-#define N     32 //lado de la red simulada
+#define N     16 //lado de la red simulada
 #define Z  27000 //iteraciones para cada proba.
 
 //-------------------------------------------------------------------
@@ -61,9 +61,6 @@ for  (z=0;z<(m+1);z++){//recorro probas
        srand(time(NULL)+i);
 
 for (j=0;j<Z;j++){//repito para una proba dada Z veces 
-
-  //Semilla
-       srand(time(NULL)+j);
 
     //pueblo
        llenar(red,n,probas[z]);
