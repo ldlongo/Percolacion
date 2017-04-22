@@ -17,7 +17,7 @@ int hoshen (int *red, int n);
 int actualizar(int *red, int *clase, int s, int frag);
 int etiqueta_falsa(int *red, int *clase, int sa, int si);
 int corregir_etiqueta(int *red, int *clase, int n);
-int percola(int *r, int n);
+int percola(int *red, int n);
 float *mediana(float *proba, float *probaper);
 float *densidad(float *proba, float *probaper, int m);
 
@@ -32,30 +32,32 @@ int main(){
    n=N;
    red=malloc(n*n*sizeof(int));
    semillas=Z; // es la cantidad de iteraciones, o sea cantidad de pc's que obtengo, y luego a promediarlas
-   a=0.0; //extremo inferior
-   b=1.0; //extremo superior
+   a=0.5; //extremo inferior
+   b=0.7; //extremo superior
    m=100;//cantidad de probabilidades
    paso=(b-a)/(m+1.0); //paso
    probas=malloc(m*sizeof(float));  //vector que contiene a las probabilidades.
    probaper=malloc(m*sizeof(float));//vector que contiene a las probabilidades de percolar
    cuentanorm=1.0/semillas;
 
+   printf("%f",cuentanorm);
+
    //Lleno probas
     
    for (i=0;i<m;i++)
    {
      probas[i]=a+paso*(i+1);
-     probaper[i]=0.0;
+     probaper[i]=0;
     }
 
 for (i=0;i<m;i++)//recorro probas
- {
+{  
+    //Semilla //una por probabilidad?
+     	srand(time(NULL)+i);
+
     for (j=0;j<semillas;j++)//repito para una proba dada <semillas> veces
 
      {
-        //Semilla
-        srand(time(NULL)+j);
-
         //pueblo
         llenar(red,n,probas[i]);
 
@@ -338,7 +340,7 @@ return 0;
   //Esta función toma la red y se fija si percola o no.
  // Si percola además me dice que cluster es el percolante.
 
-int percola(int *r, int n){
+int percola(int *red, int n){
 int *etiq; 
 int k, j, p;
 j=1;
@@ -350,15 +352,15 @@ for (k=0;k<(ceil((n+0.0)/2)+2);k++){etiq[k]=0;} //Inicio etiq
 
 for (k=0;k<n;k++){ //Lleno etiq
 
-    if (*(r+k)!=0 && *(r+k)!=j){ //primer fila i=0
-        etiq[*(r+k)]=*(r+k);
-        j=*(r+k);} //actualizo el j con el ultimo que guarde
+    if (*(red+k)!=0 && *(red+k)!=j){ //primer fila i=0
+        etiq[*(red+k)]=*(red+k);
+        j=*(red+k);} //actualizo el j con el ultimo que guarde
     }
 
 
 j=0;
 while (j<n){
-    if(*(r+(n-1)*n+j)<(ceil((n+0.0)/2)+2) && (*(r+(n-1)*n+j))*(etiq[*(r+(n-1)*n+j)])!=0){//recorro la ultima fila
+    if(*(red+(n-1)*n+j)<(ceil((n+0.0)/2)+2) && (*(red+(n-1)*n+j))*(etiq[*(red+(n-1)*n+j)])!=0){//recorro la ultima fila
     p=1;
     //printf("Si percolo: %d\n",*(r+(n-1)*n+j));
      break;}
