@@ -73,6 +73,31 @@ for i in range(0,len(L)):
 #---------------------------------
 #f(z): scaling
 #-----------------------------------
+
+'''
+#Primer Metodo: usando ns(pc) de la iteraciones
+fz=[]
+z=[]
+
+
+for i in range(0,len(Data)):#recorro la lista Data
+ print L[i]#para controlar por donde va
+ l=float(L[i])
+ if i==4: #solo me quedo con tamano de red L=64
+  for j in range(0,len(p)): #recorro probabilidades p
+   for k in range (0,len(Data[i][p[j]][1])):
+    for m in range(0,len(Pc[L[i]][0])):
+    #Busco mismos s que esten en ns(p) y en ns(pc)
+     if (Data[i][p[j]][0][k]==Pc[L[i]][0][m]):
+      if (Pc[L[i]][0][m]/(l*l))>0.01 and (Pc[L[i]][0][m]/(l*l))<0.12 :#mequedosolo con fragmentos chicos   
+       s=Pc[L[i]][0][m]
+       nsp=Data[i][p[j]][1][k] #recorro cada fila de p[j] (columna ns)
+       nspc=Pc[L[i]][1][m]
+       fz.append(float(nsp)/float(nspc))
+       sigma=(36.0/91.0)
+       z.append(pow(s,sigma)*(p[j]-pcs[i])) #pcs es la del tamano i
+'''
+     
 '''   
 #Segundo Metodo: usando el tau y que ns(pc)=qo*s^-tau
 fz2=[]
