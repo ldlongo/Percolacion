@@ -98,7 +98,7 @@ Para cada longitud lo que hace es poblar la red con 50 probabilidades entre
 devuelve una tabla de s vs ns, impresa cno el nombre L-p.txt donde
 L es el tamaño de la red y p la probabilidad.
 
-En python:
+En python: scaling.py
 Se realizo luego un analisis de los datos para valores de s entre 
  0.01<s/so<0.12 con so=(L^2). Se observo que los datos colapsaban
 a una curva que es la funcion f(z). Me dio un poco mas corrida a la izquierda.
