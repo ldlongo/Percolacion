@@ -85,3 +85,36 @@ Se realizaron ajustes lineales para las curvas de pc y pc+, obteniendose los sig
 proba	Pendiente
 pc	1.87164223999 (Dimension Fractal)
 pc+	2.09834816949 (d)
+
+----------------------------
+     Problema 4 y 5
+----------------------------
+
+Problema 4
+
+EL codigo lo que hace es tomar un vector de longitudes L[4 8 16 32 64 128]
+Para cada longitud lo que hace es poblar la red con 50 probabilidades entre 
+0.2 y 0.8 y para cada probabilidad realiza 27000 iteraciones. Cada probabilidad
+devuelve una tabla de s vs ns, impresa cno el nombre L-p.txt donde
+L es el tamaño de la red y p la probabilidad.
+
+En python:
+Se realizo luego un analisis de los datos para valores de s entre 
+ 0.01<s/so<0.12 con so=(L^2). Se observo que los datos colapsaban
+a una curva que es la funcion f(z). Me dio un poco mas corrida a la izquierda.
+de lo que se esperaba que era que en z=0, f(0)=1.
+
+Con estos datos luego se tuvieron en cuenta fragmentos con 1<s<15 y se busco
+el valor de pmax, la proba para la que se hace maximo ns.
+ 
+Se levanto la curva de Emax=zmax*s^(-Sigma) donde Emax=(pmax-pc(L)/(Pc(L)), 
+y pmax la probabilidad donde se maximiza el tamaño de cluster s.
+
+Se realizo un ajuste lineal en vez de uno logaritmico, mediante la funcion.
+f(s)=b*s^(-a)
+El parametro sigma resulto:
+Sigma
+0.365
+Con este valor y haciendo uso del nu teorico=4/3 se calculo el Tau.
+Tau
+2.365
