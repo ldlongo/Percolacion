@@ -2,20 +2,20 @@
 ---------------------------
        Problema 1
 ---------------------------
-
 a)
--Se corrieron redes de tamaño 4, 16, 32, 64, 128.
+-Se corrieron redes de tamaño 4, 8, 16, 32, 64, 128.
 -Para cada tamaño de red, se realizaron 27000 iteraciones, y en cada una se obtuvo una probabilidad critica.
 -Con esos valores de pc se obtuvo el valor promedio y la desviacion standar:
 
 
 Red       Promedio <pc>(L)       Desviacion Standar
 
-4          0.565169               0.103374       
-16         0.590066               0.044969
-32         0.591930               0.027446
-64         0.592908               0.017542
-128        0.593546               0.010196
+4          0.561902               0.103012 
+8          0.579216               0.070261      
+16         0.587771               0.044733
+32         0.594311               0.027819
+64         0.592488               0.016824
+128        0.592529               0.009722
 
 
 b)
