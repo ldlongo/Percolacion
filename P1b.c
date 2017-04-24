@@ -26,7 +26,9 @@ float *densidad(float *proba, float *probaper, int m);
 int main(){
    //Declaraciones
    int n, *red, semillas, p, i, j, m;
-   float a, b, paso, *probas, *probaper, *med, *dens, cuentanorm;
+   float a, b, *probas, *probaper, *med, *dens;
+   double paso;
+   double cuentanorm;
 
    //Defino
    n=N;
@@ -34,11 +36,11 @@ int main(){
    semillas=Z; // es la cantidad de iteraciones, o sea cantidad de pc's que obtengo, y luego a promediarlas
    a=0.5; //extremo inferior
    b=0.7; //extremo superior
-   m=100;//cantidad de probabilidades
-   paso=(b-a)/(m+1.0); //paso
+   m=50;//cantidad de probabilidades
+   paso=(double)(b-a)/(double)(m+1.0); //paso
    probas=malloc(m*sizeof(float));  //vector que contiene a las probabilidades.
    probaper=malloc(m*sizeof(float));//vector que contiene a las probabilidades de percolar
-   cuentanorm=1.0/semillas;
+   cuentanorm=((double)1.0)/((double)semillas);
 
    printf("%f",cuentanorm);
 
@@ -47,16 +49,16 @@ int main(){
    for (i=0;i<m;i++)
    {
      probas[i]=a+paso*(i+1);
-     probaper[i]=0;
+     probaper[i]=0.0;
     }
 
+//Semilla la inicio una sola vez
+    srand(time(NULL));
+
 for (i=0;i<m;i++)//recorro probas
-{  
-    //Semilla //una por probabilidad?
-     	srand(time(NULL)+i);
+ {  
 
     for (j=0;j<semillas;j++)//repito para una proba dada <semillas> veces
-
      {
         //pueblo
         llenar(red,n,probas[i]);
@@ -69,11 +71,11 @@ for (i=0;i<m;i++)//recorro probas
         p=percola(red,n);
 
         if (p==1)
-        {
-        probaper[i] = probaper[i]+(cuentanorm);//1/semillas es la cuenta normalizada
-        } 
+         {
+          probaper[i] = probaper[i]+(cuentanorm);//1/semillas es la cuenta normalizada
+         } 
     }
-}
+ }
 
 med=mediana(probas, probaper);
 
@@ -117,7 +119,7 @@ f=fopen(filename, "wt");
     fprintf (f,"p\t\t\tprobperc\n");
 for (i=0;i<m;i++)
 {
-    fprintf (f,"%f\t\t%7f\n",probas[i],probaper[i]);
+    fprintf (f,"%f\t\t%f\n",probas[i],probaper[i]);
 }
 
 
@@ -346,11 +348,11 @@ int k, j, p;
 j=1;
 p=0;// 0/1=noperc/perc;
 
-etiq=malloc((ceil((n+0.0)/2)+2)*sizeof(int)); //En la primer fila las etiquetas van desde 0 1 2...hasta ceil(m/2)+1
+etiq=malloc(n*sizeof(int)); 
 
-for (k=0;k<(ceil((n+0.0)/2)+2);k++){etiq[k]=0;} //Inicio etiq
+for (k=0;k<n;k++){etiq[k]=0;} //Inicio etiq
 
-for (k=0;k<n;k++){ //Lleno etiq
+for (k=0;k<n;k++){ //Recorro la primer fila y Lleno etiq
 
     if (*(red+k)!=0 && *(red+k)!=j){ //primer fila i=0
         etiq[*(red+k)]=*(red+k);
@@ -359,8 +361,8 @@ for (k=0;k<n;k++){ //Lleno etiq
 
 
 j=0;
-while (j<n){
-    if(*(red+(n-1)*n+j)<(ceil((n+0.0)/2)+2) && (*(red+(n-1)*n+j))*(etiq[*(red+(n-1)*n+j)])!=0){//recorro la ultima fila
+while (j<n){ //Recorro la ultima fila
+    if(*(red+(n-1)*n+j)<n && (*(red+(n-1)*n+j))*(etiq[*(red+(n-1)*n+j)])!=0){//recorro la ultima fila
     p=1;
     //printf("Si percolo: %d\n",*(r+(n-1)*n+j));
      break;}
