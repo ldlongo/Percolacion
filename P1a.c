@@ -4,7 +4,7 @@
 #include <time.h>
 #include <unistd.h>
 
-#define N     20 //lado de la red simulada
+#define N    128 //lado de la red simulada
 #define Z  27000 //iteraciones para cada proba.
 
 
@@ -139,7 +139,7 @@ void llenar(int *red, int n, float p){
     int s;
     s=n*n;
     for (i=0;i<s;i++){
-	   test = ( (float)(rand() % 101) )/100 ;
+	   test = (float)rand()/(float)RAND_MAX; 
 	   /*printf("Numero aleatorio entre 0 y 1 es %.2f\n",test)*/; 
        /*Acepto o rechazo con probabilidad p*/
         if (test<p)
