@@ -77,9 +77,9 @@ for (i=0;i<m;i++)//recorro probas
     }
  }
 
-med=mediana(probas, probaper);
+//med=mediana(probas, probaper);
 
-dens=densidad(probas, probaper, m);
+//dens=densidad(probas, probaper, m);
 
 //Imprimo probabilidades normalizadas en consola
 printf ("Tamaño de red: %d\n",n);
@@ -151,7 +151,8 @@ void llenar(int *red, int n, float p){
     int s;
     s=n*n;
     for (i=0;i<s;i++){
-	   test = ( (float)(rand() % 101) )/100 ;
+	   //test = ( (float)(rand() % 101) )/100 ;
+     test = (float)rand()/(float)RAND_MAX; 
 	   /*printf("Numero aleatorio entre 0 y 1 es %.2f\n",test)*/; 
        /*Acepto o rechazo con probabilidad p*/
         if (test<p)
@@ -354,7 +355,7 @@ for (k=0;k<n;k++){etiq[k]=0;} //Inicio etiq
 
 for (k=0;k<n;k++){ //Recorro la primer fila y Lleno etiq
 
-    if (*(red+k)!=0 && *(red+k)!=j){ //primer fila i=0
+    if (*(red+k)!=0 && *(red+k)!=j){ //primer fila i=0, si es distinto de 0 y distinto de 1
         etiq[*(red+k)]=*(red+k);
         j=*(red+k);} //actualizo el j con el ultimo que guarde
     }
