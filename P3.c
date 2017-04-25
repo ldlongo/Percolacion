@@ -33,6 +33,9 @@ float tamano;
 int *red;
 float sup, inf;
 
+//Semilla ¿esta bien semilla aca? ¿una por longitud?
+   srand(time(NULL));
+
 //Defino algunas cosas
     m=6;//cantidad de longitudes
     longitudes=malloc(m*sizeof(int)); // es la cantidad de realizaciones, o sea cantidad de pc que obtengo, y luego a prom
@@ -49,12 +52,12 @@ float sup, inf;
  longitudes[4]=64;
  longitudes[5]=128;
 
- pc[0]=0.565169;
- pc[1]=0.582233;
- pc[2]=0.590066;
- pc[3]=0.591930;
- pc[4]=0.592908;
- pc[5]=0.593546;
+ pc[0]=0.561902;
+ pc[1]=0.579216;
+ pc[2]=0.587771;
+ pc[3]=0.594311;
+ pc[4]=0.592488;
+ pc[5]=0.592529;
 
 for (i=0;i<m;i++)
 	{
@@ -64,8 +67,7 @@ for (i=0;i<m;i++)
 
 for (k=0;k<m;k++)//Recorro longitudes
  {  
-   //Semilla ¿esta bien semilla aca? ¿una por longitud?
-   srand(time(NULL)+k);
+   
    n=longitudes[k];
    tamano=0; //pongo tamano en 0
    red=malloc(n*n*sizeof(int)); //creo el espacio en memoria  
