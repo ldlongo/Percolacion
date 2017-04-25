@@ -4,8 +4,8 @@
 #include <time.h>
 #include <unistd.h>
 
-#define N     16 //lado de la red simulada
-#define Z  27000 //iteraciones para cada proba.
+#define N    4 //lado de la red simulada
+#define Z  40000 //iteraciones para cada proba.
 
 //-------------------------------------------------------------------
 //                     Declaracion de funciones
@@ -28,18 +28,19 @@ int main(){
     int *tamano;
     int *cuentatamano;
     float *probas, a, b, paso;
-    
+  
     //Defino
     m=50;
     a=0.55;
     b=0.65;
-    paso=(b-a)/(m);
+    paso=(float)(b-a)/(m);
     probas=malloc((m+1)*sizeof(float));
     n=N;
     red=malloc(n*n*sizeof(int));
     clase=malloc(n*n*sizeof(int));
     tamano=malloc(n*n*sizeof(int));
     cuentatamano=malloc(n*n*sizeof(int));
+
 
  //inicializo probas
  
@@ -48,7 +49,7 @@ int main(){
   probas[i]=a+(i*paso);
  }  
 
-for  (z=0;z<(m+1);z++){//recorro probas
+for  (z=0;z<m+1;z++){//recorro probas
 
 //incializo tamano y cuentatamano
      for (i=0;i<n*n;i++)
@@ -88,7 +89,7 @@ for (k=0;k<n*n;k++){
 char filename[64];
 
 FILE *f;                   
-   sprintf(filename, "%.4f.txt", probas[z]);
+   sprintf(filename, "%d-%.4f.txt", n, probas[z]);//pcritica o probas
    f=fopen(filename,"wt");
 
 fprintf(f,"Tamaño de red: %d",n);
@@ -136,7 +137,7 @@ void llenar(int *red, int n, float p){
     int s;
     s=n*n;
     for (i=0;i<s;i++){
-	   test = ( (float)(rand() % 101) )/100 ;
+	   test = (float)rand()/(float)RAND_MAX; 
 	   /*printf("Numero aleatorio entre 0 y 1 es %.2f\n",test)*/; 
        /*Acepto o rechazo con probabilidad p*/
         if (test<p)
