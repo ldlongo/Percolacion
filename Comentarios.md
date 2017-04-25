@@ -1,7 +1,7 @@
-# Percolacion
----------------------------
-       Problema 1
----------------------------
+                     # Percolacion
+---------------------------------------------------------------
+ Problema 1
+----------------------------------------------------------------
 a)
 -Se corrieron redes de tamaño 4, 8, 16, 32, 64, 128.
 -Para cada tamaño de red, se realizaron 27000 iteraciones, y en cada una se obtuvo una probabilidad critica.
@@ -71,9 +71,9 @@ L      X^2(Chi)     Tau
 64      0.584      -1.68
 128     0.591      -1.73
 
----------------------------
-       Problema 2
----------------------------
+----------------------------------------------------------------------
+  Problema 2
+----------------------------------------------------------------------
 
 Para cada tamaño de red L=[4,8,16,32,64,128] se calculo 
 la Fuerza del cluster P y se grafico en funcion de la probabilidad p.
@@ -93,9 +93,9 @@ Red	Betas	Taus
 64	0.3326	2.1074
 128	0.3315	2.1071
 
----------------------------
-       Problema 3
----------------------------
+-----------------------------------------------------------------------
+ Problema 3
+-----------------------------------------------------------------------
 
 En este problema se calculo la masa del cluster percolante M vs el tamaño
 de la red L=[4,8,16,32,64,128]. Esto fue realizado para 3 valores de probabilidad:
@@ -107,11 +107,9 @@ proba	Pendiente
 pc	1.84716702675 (Dimension Fractal)
 pc+	2.09376548734
 
-----------------------------
-     Problema 4 y 5
-----------------------------
-
-Problema 4
+-----------------------------------------------------------------------
+ Problema 4 y 5
+-----------------------------------------------------------------------
 
 EL codigo lo que hace es tomar un vector de longitudes L[4 8 16 32 64 128]
 Para cada longitud lo que hace es poblar la red con 50 probabilidades entre 
@@ -139,3 +137,39 @@ Sigma
 Con este valor y haciendo uso del nu teorico=4/3 se calculo el Tau.
 Tau
 2.3694
+
+
+---------------------------------------------------------------------
+  Problema 6
+----------------------------------------------------------------------
+El programa en C lo que hace es calcular para un cierto tamaño de red L, 
+el momento de segundo orden M2. Para ello se realizo un barrido en probabilidades p
+y para cada una de ellas se obtuvo una tabla de s vs ns. Con ella se utilizo la funcion
+momentok, la cual devuelve el momento de orden k de la distribucion.
+
+Para procesar los datos se utilizo un programa en python llamado gmatching.py
+Lo que hacemos alli es realizar para cda tamaño de red dos metodos para encontrar
+el valor del exponente gamma:
+------------------------------------
+Primer metodo
+------------------------------------
+1- Se grafico M2(p)
+2- Se calcularon los valores de gamma como las pendientes alrededor de pc
+para valores de p>pc y p<pc. OBteniendose Gamma+ y Gamma-
+3-Se graficaron Gamma+(p) y Gamma-(p) y se busco la iterseccion de las dos curvas.
+ 
+-----------------------------------
+Segundo metodo
+----------------------------------
+1- Grafico de logM2(p) vs log |p-pc| para p>pc y p<pc, obteniendose dos curvas.
+2- A continuacion se recorrieron ambas curvas relizando el siguiente procedimiento de ajuste:
+   a-Nos paramos en un punto y consideramos los 4 puntos siguientes.
+   b-Realizamos un ajuste lineal.
+   c-Nos movemos al siguiente punto de la curva.
+3-Una vez que terminamos de recorrer ambas curvas vamos a tener una lista
+  de pendientes de los ajustes. Se procede entonces a buscar aquellas que coinciden
+  con un margen de 0.001.
+
+Los valores de gamma encontrados fueron:
+L=6     gamma=2.13
+L=128   gamma=2.64
