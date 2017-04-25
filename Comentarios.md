@@ -104,8 +104,8 @@ Se graficaron log(M)vslog(L) para cada una de estas probabilidades.
 Se realizaron ajustes lineales para las curvas de pc y pc+, obteniendose los siguientes valores:
 
 proba	Pendiente
-pc	1.87164223999 (Dimension Fractal)
-pc+	2.09834816949 (d)
+pc	1.89162931376 (Dimension Fractal)
+pc+	2.11560368281
 
 ----------------------------
      Problema 4 y 5
