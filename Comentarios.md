@@ -19,21 +19,21 @@ Red       Promedio <pc>(L)       Desviacion Standar
 
 
 b)
+
 -Se corrieron redes de tamaño 4, 16, 32, 64, 128.
 -Para cada tamaño de red, se utilizaron 100 probabilidades entre 0 y 1.
 -Para cada probabilidad se realizaron 27000 iteraciones en las cuales se calculo la probabilidad de que el cluster percolase.
 -De esta manera se obtuvieron puntos F(p) y se graficaron en un mismo grafico.
 -Se creo la funcion mediana la cual determina el valor de pc como el primer valor de probabilidad que hace que el cluster percole mas de la mitad de las veces. 
--Se creo la funcion densidad que deriva la distribucion acumulada F(p) y obtiene la densidad de probabilidad f(p).
+-Para utilizar la funcion mediana se realizo un barrido más fino entre probabilidades de 0.5 y 0.7 y entre 0.58 y 0.60.
 
-
-Red       Mediana       
-4          0.574 
-8          0.584                   
-16         0.594               
-32         0.594              
-64         0.594                
-128        0.594                 
+Red       Mediana(pc)     
+4          0.5706 
+8          0.5863                   
+16         0.5902              
+32         0.5933             
+64         0.5929              
+128        0.5926                  
 
 c) Dos graficos:
    En un grafico se tomaron los valores de dispersion y L del punto 1a) y se 
