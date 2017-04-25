@@ -35,13 +35,20 @@ Red       Mediana(pc)
 64         0.5929              
 128        0.5926                  
 
-c) Dos graficos:
-   En un grafico se tomaron los valores de dispersion y L del punto 1a) y se 
-realizo un ajuste log-log de los datos. La pendiente (-1/nu)=-0.672 permitio
-calcular el exponente critico nu=1.487.
+c) En un grafico se tomaron los valores de dispersion y L del punto 1a) y se 
+realizo un ajuste log-log de los datos. La pendiente (-1/nu) permitio
+calcular el exponente critico nu:
+
+Pendiente
+-0.683
+Exp nu sim.
+1.465
+Exp nu teorico
+1.33
+
    En otro se grafico pc(L) en funcion de la disp. Se realizo un ajuste
 porque no daba lineal y entonces se obtuvo un valor de ordenada de 
-pc(inf)=0.59327
+pc(inf)=0.5937
 
 
 d) Para cada tamaño de red se realizo una busqueda de probabilidades
