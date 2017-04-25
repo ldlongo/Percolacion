@@ -33,7 +33,7 @@ int main(){
     m=50;
     a=0.55;
     b=0.65;
-    paso=(float)(b-a)/(m);
+    paso=(float)(b-a)/(float)(m);
     probas=malloc((m+1)*sizeof(float));
     n=N;
     red=malloc(n*n*sizeof(int));
@@ -59,7 +59,7 @@ for  (z=0;z<m+1;z++){//recorro probas
       }
 
       //Semilla
-       srand(time(NULL)+i);
+       srand(time(NULL));
 
 for (j=0;j<Z;j++){//repito para una proba dada Z veces 
 
