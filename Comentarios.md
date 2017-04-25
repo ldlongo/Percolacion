@@ -57,6 +57,20 @@ Ademas para cada probabilidad se realizo un ajuste lineal
 para valores de logs<4 y se calculo el chicuadrado de cada ajuste. Luego
 se grafico y se observo que hay una tendencia a minimizarse en el pc.
 
+d) Para cada tamaño de red se realizo una busqueda de probabilidades
+por encima y por debajo de pc entre 0.55 y 0.65. Se grafico logns vs logs. 
+Ademas para cada probabilidad se realizo un ajuste lineal
+y se calculo el chicuadrado de cada ajuste. El punto de chicuadrado
+minimo fue elegido como valor de tau.
+
+L      X^2(Chi)     Tau
+4       0.609      -0.92 
+8       0.606      -1.27 
+16      0.598      -0.94
+32      0.592      -1.61 
+64      0.584      -1.68
+128     0.591      -1.73
+
 ---------------------------
        Problema 2
 ---------------------------
