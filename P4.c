@@ -34,11 +34,12 @@ int main(){
     m=50;
     a=0.2;
     b=0.8;
-    paso=(b-a)/(m);
+    paso=(float)(b-a)/(float)(m);
     probas=malloc((m+1)*sizeof(float));
     longitudes=malloc(6*sizeof(int));
     
-   
+   //Semilla ¿esta bien semilla aca? ¿una por longitud?
+   srand(time(NULL));
 
  //inicializo probas
  for (i=0;i<(m+1);i++){probas[i]=a+(i*paso);}  
@@ -61,8 +62,7 @@ for (l=0;l<6;l++)//recorro longitudes
   
   for  (z=0;z<(m+1);z++)//recorro probas
   {
-    //Semilla
-    srand(time(NULL)+z); //una semilla para cada proba?
+   
     //Incializo tamano y cuentatamano cada vez que paso a una nueva proba
     for (i=0;i<n*n;i++)
       { 
@@ -126,7 +126,7 @@ void llenar(int *red, int n, float p){
     int s;
     s=n*n;
     for (i=0;i<s;i++){
-	   test = ( (float)(rand() % 101) )/100 ;
+	   test = (float)rand()/(float)RAND_MAX; 
 	   /*printf("Numero aleatorio entre 0 y 1 es %.2f\n",test)*/; 
        /*Acepto o rechazo con probabilidad p*/
         if (test<p)
