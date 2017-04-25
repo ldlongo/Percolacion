@@ -4,7 +4,7 @@
 #include <time.h>
 #include <unistd.h>
 
-#define N     128 //lado de la red simulada
+#define N    128 //lado de la red simulada
 #define Z  27000 //iteraciones para cada proba.
 
 
@@ -26,7 +26,7 @@ float *densidad(float *proba, float *probaper, int m);
 int main(){
    //Declaraciones
    int n, *red, semillas, p, i, j, m;
-   float a, b, *probas, *probaper, *med, *dens;
+   float a, b, *probas, *probaper, *med;
    double paso;
    double cuentanorm;
 
@@ -41,8 +41,6 @@ int main(){
    probas=malloc(m*sizeof(float));  //vector que contiene a las probabilidades.
    probaper=malloc(m*sizeof(float));//vector que contiene a las probabilidades de percolar
    cuentanorm=((double)1.0)/((double)semillas);
-
-   printf("%f",cuentanorm);
 
    //Lleno probas
     
@@ -77,36 +75,17 @@ for (i=0;i<m;i++)//recorro probas
     }
  }
 
-//med=mediana(probas, probaper);
-
-//dens=densidad(probas, probaper, m);
+med=mediana(probas, probaper);
 
 //Imprimo probabilidades normalizadas en consola
 printf ("Tamaño de red: %d\n",n);
 printf ("Se estudiaron %d probabilidades.\n", m);
 printf ("Se plantaron %d semillas para cada probabilidad.\n",semillas);
-printf ("   p   \n");
+printf ("   p\t\tF(p) probperc\n");
 for (i=0;i<m;i++){
-    printf ("%f\n",probas[i]);
+    printf ("%f\t\t%7f\n",probas[i],probaper[i]);
 }
-printf ("probabilidad de percolar\n");
-for (i=0;i<m;i++){
-    printf ("%f\n",probaper[i]);
-}
-
 printf ("La mediana es %f\n", med[0]);
-
-//Imprimo densidad
-printf("funcino densidad f(p)\n");
-printf ("   p   \n");
-for (i=0;i<m-1;i++){
-    printf ("%f\n",dens[0+i]);
-}
-printf ("\ndensidad f\n");
-for (i=0;i<m-1;i++){
-    printf ("%f\n",dens[m+i]);
-}
-
 
 //Imprimo en archivo de texto
 char filename[64];
@@ -121,7 +100,7 @@ for (i=0;i<m;i++)
 {
     fprintf (f,"%f\t\t%f\n",probas[i],probaper[i]);
 }
-
+    fprintf (f,"La mediana es %f",med[0]);
 
 fflush(f);
 fclose(f);
