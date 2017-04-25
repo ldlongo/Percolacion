@@ -135,7 +135,7 @@ Se realizo un ajuste lineal en vez de uno logaritmico, mediante la funcion.
 f(s)=b*s^(-a)
 El parametro sigma resulto:
 Sigma
-0.365
+0.3694
 Con este valor y haciendo uso del nu teorico=4/3 se calculo el Tau.
 Tau
-2.365
+2.3694
