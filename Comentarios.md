@@ -132,12 +132,11 @@ y pmax la probabilidad donde se maximiza el tamaño de cluster s.
 Se realizo un ajuste lineal en vez de uno logaritmico, mediante la funcion.
 f(s)=b*s^(-a)
 El parametro sigma resulto:
-Sigma
-0.3694
+Sigma	eSigma
+0.3421	0.0134
 Con este valor y haciendo uso del nu teorico=4/3 se calculo el Tau.
-Tau
-2.3694
-
+Tau	eTau
+2.4561	0.0179
 
 ---------------------------------------------------------------------
   Problema 6
