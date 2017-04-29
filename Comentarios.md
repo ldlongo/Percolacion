@@ -85,13 +85,13 @@ Se ajustaron mediante una recta y de ellas se obtuvo el coeficiente Beta.
 Con Beta y usando el valor de sigma teorico=36/91 se obtuvieron valores
 para Tau:
 
-Red	Betas	Taus
-4	0.5123	2.1654
-8	0.3998	2.1291
-16	0.3460	2.1117
-32	0.3333	2.1076
-64	0.3326	2.1074
-128	0.3315	2.1071
+Red	Betas	eBeta	Taus	eTau
+4	0.5123	0.0054	2.1654	0.0017
+8	0.3998	0.0028	2.1291	0.0009
+16	0.3460	0.0031	2.1117	0.0010
+32	0.3333	0.0040	2.1076	0.0013
+64	0.3326	0.0043	2.1074	0.0014
+128	0.3315	0.0044	2.1071	0.0014
 
 -----------------------------------------------------------------------
  Problema 3
