@@ -15,6 +15,8 @@ int actualizar(int *red, int *clase, int s, int frag);
 int etiqueta_falsa(int *red, int *clase, int sa, int si);
 int corregir_etiqueta(int *red, int *clase, int n);
 int percola (int *red, int n);
+float *promydisp(int *a, int n);
+
 
 #define N    27000//cantidad de iteraciones para L fija
 
@@ -25,11 +27,11 @@ int percola (int *red, int n);
 
 int main(){
 
-int i, k, j, m, n, sumo;
+int i, k, j, m, n, t;
 int *longitudes;
-float *masa;
+float *masa, *errormasa;
 float *pc;
-float tamano;
+int *tamano;
 int *red;
 float sup, inf;
 
@@ -37,12 +39,13 @@ float sup, inf;
    srand(time(NULL));
 
 //Defino algunas cosas
-    m=6;//cantidad de longitudes
-    longitudes=malloc(m*sizeof(int)); // es la cantidad de realizaciones, o sea cantidad de pc que obtengo, y luego a prom
-    masa=malloc(m*sizeof(float));//es la cantidad de veces que percolo para la probabilidad p
+    m=8;//cantidad de longitudes
+    longitudes=malloc(m*sizeof(int));
+    masa=malloc(m*sizeof(float));
+    errormasa=malloc(m*sizeof(float));
     pc=malloc(m*sizeof(float));
     sup=0.02;
-    inf=-0.02;
+    inf=-0.03;
 
 //Lleno longitudes, pcritica(L) y tamano promedio
  longitudes[0]=4;
@@ -51,6 +54,8 @@ float sup, inf;
  longitudes[3]=32;
  longitudes[4]=64;
  longitudes[5]=128;
+ longitudes[6]=256;
+ longitudes[7]=512;
 
  pc[0]=0.561902;
  pc[1]=0.579216;
@@ -58,6 +63,8 @@ float sup, inf;
  pc[3]=0.594311;
  pc[4]=0.592488;
  pc[5]=0.592529;
+ pc[6]=0.592529;
+ pc[7]=0.592529;
 
 for (i=0;i<m;i++)
 	{
@@ -67,40 +74,48 @@ for (i=0;i<m;i++)
 
 for (k=0;k<m;k++)//Recorro longitudes
  {  
-   
+   t=0; 
    n=longitudes[k];
-   tamano=0; //pongo tamano en 0
    red=malloc(n*n*sizeof(int)); //creo el espacio en memoria  
-   
+   tamano=malloc(N*sizeof(int)); //aca voy a guardar los tamaños para las N iteraciones luego promedio y dispersion
+   for (j=0;j<N;j++){tamano[j]=0;} //pongo tamanos en cero
+
    for (j=0;j<N;j++)//repito para una long dada N veces 
       {
        //pueblo
-       llenar(red,n,pc[k]+inf);//corro para tres probas pc, pc+sup, pc+inf
+       llenar(red,n,pc[k]+inf);//corro para tres probas pc, pc+sup, pc+inf //ver arriba inf
 
        //hk   
        hoshen(red,n);   
 
       //percola o no percola?
-       sumo=percola(red,n); //percola me devuelve el tamaño del cluster percolante y se lo pongo a sumo
-       tamano=tamano+sumo;
+       //sumo=percola(red,n); //percola me devuelve el tamaño del cluster percolante y se lo guardo a sumo
+       //tamano=tamano+sumo;
+       if (percola(red,n)!=0) //tiene en cuent que si no percolo no lo sume a tamaño.
+       {
+        tamano[t]=percola(red,n);
+        t=t+1;//t es cuantos lugares de tamanos lleno
+       }
+        
       }
-   masa[k]=(tamano)/(N); //promedio
+   masa[k]=promydisp(tamano,t)[0]; //promedio
+   errormasa[k]=promydisp(tamano,t)[1];//error en la masa
     
  }
 
 char filename[64];
 
 FILE *f;   //Declara puntero a tipo FILE 
-sprintf(filename, "pc-.txt" );
+sprintf(filename, "pc--.txt" );
 f=fopen(filename, "wt");
 fprintf(f,"Se estudiaron %d longitudes.\n", m);
-fprintf(f,"Longitud\tMasa\n");
+fprintf(f,"Longitud\tMasa\t\t\tErrormasa\n");
 
-printf ("Longitud\tMasa\n");
+printf ("Longitud\tMasa\t\t\tErrormasa\n");
 
 for (k=0;k<m;k++){
-fprintf(f,"%5d\t\t%4f\n",longitudes[k],masa[k]);
-printf ("%5d\t\t%4f\n",longitudes[k],masa[k]);
+fprintf(f,"%5d\t\t%4f\t\t%5f\n",longitudes[k],masa[k],errormasa[k]);
+printf ("%5d\t\t%4f\t\t%5f\n",longitudes[k],masa[k],errormasa[k]);
 }
 
 fflush(f);
@@ -380,3 +395,29 @@ free(etiq);
 return tamanodelperc;
 }
 
+//8)proydis
+  
+  //Esta funcion toma un array a y su tamaño n
+  //y devuelve el promedio y la desviacion standar.
+
+float *promydisp(int *a, int n){
+    int i;
+    float prom;
+    float desv;
+    float *salida; //salida[0]=promedio salida[1]=dispersion
+ 
+    salida=malloc(2*sizeof(float));
+    prom=0;
+    desv=0;
+
+    for (i=0;i<n;i=i+1){
+    prom=prom+a[i];    
+    }
+     
+    for (i=0;i<n;i=i+1){ 
+    desv=desv+pow(a[i]-((float)prom/(float)n),2);}
+
+    salida[0]=((float)prom/(float)n);
+    salida[1]=sqrt((float)desv/(float)n);
+    return salida;
+}
