@@ -25,14 +25,14 @@ for i in range(0,len(key)):
  yv=np.array(y)
  data[key[i]]=[xv,yv]
  f.close()
-
+'''
 #--------------------------------------------------------------------------
 #gamma matching
 #Metodo 1: interseccion de pendientes
 #Se grafican gammas vs p alrededor de pc para pc- y pc+ y se busca donde
 #se intersectan ambas curvas
 #-------------------------------------------------------------------------- 
-'''
+
 pc=[0.587771, 0.5925]
 gamasup={}
 gamainf={}
@@ -72,21 +72,22 @@ for k in range(0,len(key)):
 
 #---------------------------------------------------------------
  
-#grafico
+#grafico:
  #key[0] para 6 y key[1] para 128
+L=0#0 o 1 si quiero L=6 o L=128
 plt.figure(0)
 #grafico en dos colores:
-for i in range(0,len(data[key[1]][0])):
- if   data[key[1]][0][i]<pc[1]:             
-  plt.plot(data[key[1]][0][i],data[key[1]][1][i],'ro')
+for i in range(0,len(data[key[L]][0])):
+ if   data[key[L]][0][i]<pc[1]:             
+  plt.plot(data[key[L]][0][i],data[key[L]][1][i],'ro')
  else:              
-  plt.plot(data[key[1]][0][i],data[key[1]][1][i],'bo')
+  plt.plot(data[key[L]][0][i],data[key[L]][1][i],'bo')
                
-plt.xlabel(r'$p$'" probabilidad")
-plt.ylabel(r'$M_{2}(p)$'" momento de orden 2")               
+plt.xlabel(r'$p$',size=15)
+plt.ylabel(r'$M_{2}(p)$',size=15)               
 plt.figure(1)
-plt.plot(gamainf[key[1]][0],gamainf[key[1]][1],'ro',label=r'$\gamma-$')
-plt.plot(gamasup[key[1]][0],gamasup[key[1]][1],'bo',label=r'$\gamma+$')
+plt.plot(gamainf[key[L]][0],gamainf[key[L]][1],'ro',label=r'$\gamma-$')
+plt.plot(gamasup[key[L]][0],gamasup[key[L]][1],'bo',label=r'$\gamma+$')
 plt.legend()
 plt.xlabel(r'$|p-p_{c}|$')
 plt.ylabel(r'$\gamma$'" gamma")
@@ -96,7 +97,7 @@ plt.show()
 '''
 #--------------------------------------------------------------------------
 #gamma matching
-#Metodo 2: De pendientes paralelas
+#Metodo de pendientes paralelas
 #Se grafican log(M2) VS log(p-pc) para p>pc y p<pc. Luego se buscan
 #ajustes cuyas pendientes a lo largo de esas curvas que sean paralelas.
 #-------------------------------------------------------------------------- 
@@ -213,8 +214,8 @@ for j in range(0,len(logfitxmen)):
   yfit[j]=(func(logfitxmen[j],*parmfit))
 plt.plot(xfit,yfit,'r-')
 plt.plot(logfitxmen,logfitymen,'ro',label=r'$\gamma-$')
-plt.xlabel(r'$log |p-p_{c}|$')
-plt.ylabel("log M2")
+plt.xlabel(r'$log |p-p_{c}|$',size=15)
+plt.ylabel(r'$log M2$',size=15)
 plt.legend()
 
 #gammamas
@@ -228,12 +229,15 @@ for j in range(0,len(logfitxmas)):
 plt.plot(xfit,yfit,'b-')
 plt.plot(logfitxmas,logfitymas,'bo',label=r'$\gamma+$')
 
-
-
+plt.ylim(-5,12)
+plt.xlim(-5,0)
 plt.legend()
 plt.xlabel(r'$log |p-p_{c}|$')
-plt.ylabel("log M2")
+plt.ylabel(r'$log\ M_{2}$')
+plt.text(-2.8,10.5, "$L=128$", fontsize=25, bbox=dict(facecolor='w', alpha=0.5))
+plt.text(-2.5,4.5, "$\gamma_{-}=-2.643$", fontsize=15, bbox=dict(facecolor='r', alpha=0.5))
+plt.text(-4.4,2, "$\gamma_{+}=-2.644$", fontsize=15, bbox=dict(facecolor='b', alpha=0.5))
 plt.legend()
 plt.show()
-
+'''
 
